@@ -1,0 +1,80 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
+<%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%--@elvariable id="nodeType" type="org.jahia.services.content.nodetypes.ExtendedNodeType"--%>
+<%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
+<%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
+<%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
+
+<template:addResources type="css" resources="contribute-toolbar.css"/>
+<script type="text/javascript">
+    var contributeParameters${fn:replace(currentNode.UUID,"-" ,"_")} = {
+        contributeTarget: "${currentNode.path}",
+        contributeReplaceTarget: "${currentNode.UUID}",
+        contributeReplaceUrl: "<c:url value='${url.mainResource}.ajax?jarea=${areaResource.identifier}'/>"
+    };
+    contributeParams[contributeParams.length] = contributeParameters${fn:replace(currentNode.UUID,"-" ,"_")};
+</script>
+<style>
+
+        img {
+            border: none;
+        }
+        #treepreview {
+            position: absolute;
+            border: 1px solid #ccc;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+            z-index:9999;
+        }
+    </style>
+<h3 class="titleaddnewcontent">
+    <img title="" alt="" src="<c:url value='${url.currentModule}/images/add.png'/>"/><fmt:message key="label.add.new.content"/>
+</h3>
+
+<h3 class="titleaddnewcontent" style="display:none;">
+<img title="" alt="" src="<c:url value='${url.currentModule}/images/paste.png'/>"/><a href="#" id="paste-${currentNode.identifier}" class="pastelink" onclick="pasteNodes(contributeParameters${fn:replace(currentNode.UUID,"-" ,"_")});" style="display:none;"><fmt:message
+        key="label.paste"/></a>
+</h3>
+
+<c:set var="types" value="${jcr:getContributeTypes(currentNode, areaResource, null)}"/>
+
+<c:if test="${types != null}">
+    <ul class="pagecontributeToolbar">
+    <c:forEach items="${types}" var="nodeType" varStatus="status">
+        <li><a href="<c:url value='${url.base}${currentNode.path}.contribute.add.html.ajax?resourceNodeType=${nodeType.name}&path=${renderContext.mainResource.node.path}'/>" id="addButton${currentNode.identifier}-${status.index}">
+        <jcr:icon var="icon" type="${nodeType}"/>
+		<img title="" align="absmiddle" alt="" src="<c:url value='${url.templatesPath}/${icon}.png'/>"/> ${jcr:label(nodeType, renderContext.UILocale)}
+        </a></li>                                  
+    </c:forEach>
+    </ul>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            <c:forEach items="${types}" var="nodeType" varStatus="status">
+                $("#addButton${currentNode.identifier}-${status.index}").fancybox({
+                    'height':600,
+                    'width':600,
+                    'autoScale':false,
+                    'autoDimensions':false,
+                    'onComplete':function() {
+                        $(".newContentCkeditorContribute${currentNode.identifier}${fn:replace(nodeType.name,':','_')}").each(function() { $(this).ckeditor(function(){}, contributeCKEditorToolbar); $(this).data('ckeditorInstance').checkWCAGCompliance=wcagCompliant;});
+
+                    },
+
+                    'onCleanup':function() {
+                        $(".newContentCkeditorContribute${currentNode.identifier}${fn:replace(nodeType.name,':','_')}").each(function() { if ($(this).data('ckeditorInstance')) { $(this).data('ckeditorInstance').destroy()  } });
+                    }
+                });
+            </c:forEach>
+        });
+    </script>
+
+</c:if>
+<div id="addNewContent" style="display:none;" >
+    
+</div>
