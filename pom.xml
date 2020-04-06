@@ -49,10 +49,10 @@
     <parent>
         <groupId>org.jahia.modules</groupId>
         <artifactId>jahia-modules</artifactId>
-        <version>7.1.0.0</version>
+        <version>7.5.0.0</version>
     </parent>
     <artifactId>contribute</artifactId>
-	<version>7.1.2-SNAPSHOT</version>
+	<version>8.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Jahia Contribute Mode</name>
     <description>Default templates for the contribute mode.</description>
@@ -67,6 +67,7 @@
         <jahia-depends>contentRetrieval,default,default-skins,facets,grid,skins,tabularList,tags</jahia-depends>
         <jahia-deploy-on-site>all</jahia-deploy-on-site>
         <jahia-module-type>system</jahia-module-type>
+        <jahia-module-signature>MCwCFBn6ioqAYpvwrn/vXoqeksebEhdPAhQPvLyxu7kILj8BU9ksst1fNBO4Ag==</jahia-module-signature>
     </properties>
 
     <repositories>
