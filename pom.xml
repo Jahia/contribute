@@ -67,7 +67,7 @@
         <jahia-depends>contentRetrieval,default,default-skins,facets,grid,skins,tabularList,tags</jahia-depends>
         <jahia-deploy-on-site>all</jahia-deploy-on-site>
         <jahia-module-type>system</jahia-module-type>
-        <jahia-module-signature>MCwCFBn6ioqAYpvwrn/vXoqeksebEhdPAhQPvLyxu7kILj8BU9ksst1fNBO4Ag==</jahia-module-signature>
+        <jahia-module-signature>MCwCFE02mpjsivrsZrrbDSVHfErjxbn4AhQfbDCLhZOnqdIuIBma7MQ+Lm/cpw==</jahia-module-signature>
     </properties>
 
     <repositories>
